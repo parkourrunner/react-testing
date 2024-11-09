@@ -1,5 +1,6 @@
-import { render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import LoginComponent from "./LoginComponent";
+import user from "@testing-library/user-event";
 
 describe("Login conmponent tests", () => {
   const loginServiceMock = {
@@ -40,6 +41,18 @@ describe("Login conmponent tests", () => {
     expect(inputs[0].value).toBe("");
     expect(inputs[1].value).toBe("");
     expect(inputs[2].value).toBe("Login");
+  });
+
+  
+
+  it("Clivk login with incomplete credentials - show right message", () => {
+    const inputs = screen.getAllByTestId("input");
+    const loginButton = inputs[2];
+
+    // fireEvent.click(loginButton);
+    act(() =>{user.click(loginButton)});
+    const resultLAbel = screen.getByTestId("resultLabel");
+    expect(resultLAbel.textContent).toBe("UserName and password required!")
   });
 
 });
